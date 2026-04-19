@@ -103,6 +103,38 @@ React가 처음이라면 시작 전에 `00-introduction/README.md`를 먼저 읽
 
 01 컴포넌트 첫걸음 심화:
 - TypeScript로 컴포넌트 작성하기 — props 타입 정의, JSX.Element vs ReactNode
+  - 진입 전 TypeScript 설정 여부를 확인한다. `tsconfig.json`이 없으면 아래 명령어를 먼저 안내하고 실행하도록 한다:
+    ```bash
+    npm install -D typescript @types/react @types/react-dom
+    npx tsc --init
+    ```
+  - 이후 `tsconfig.json`을 Vite + React에 맞게 아래 내용으로 교체하도록 안내한다:
+    ```json
+    {
+      "compilerOptions": {
+        "target": "ES2020",
+        "useDefineForClassFields": true,
+        "lib": ["ES2020", "DOM", "DOM.Iterable"],
+        "module": "ESNext",
+        "skipLibCheck": true,
+        "moduleResolution": "bundler",
+        "allowImportingTsExtensions": true,
+        "resolveJsonModule": true,
+        "isolatedModules": true,
+        "noEmit": true,
+        "jsx": "react-jsx",
+        "strict": true,
+        "allowArbitraryExtensions": true
+      },
+      "include": ["src"]
+    }
+    ```
+  - `src/declarations.d.ts` 파일을 생성하도록 안내한다:
+    ```ts
+    declare module "*.css";
+    ```
+  - 설정 완료 후 `.jsx` → `.tsx` 파일 이름 변경 과제로 넘어간다.
+  - `.tsx`로 전환 후 `cols`, `rows` 같은 숫자 타입 속성에서 에러가 나면, `"30"` → `{30}` 으로 바꾸도록 안내한다. JSX에서 `{}` 는 JS 표현식이므로 숫자를 그대로 넘길 수 있다.
 - 컴포넌트 설계 원칙 — 단일 책임, 재사용 가능한 컴포넌트와 그렇지 않은 컴포넌트의 기준
 
 02 리스트 렌더링 심화:
