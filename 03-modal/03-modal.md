@@ -11,6 +11,12 @@
 ```javascript
 // App.jsx
 {isModalOpen && <RestaurantDetailModal {/** 적절한 props */}/>}
+
+// 문제 의의제기 -> 내가 생각했을때는 이거 isModalOpen 하는거 아닌거같다 -> 이걸로 하면 타입단언을 해야함
+// selectedResturants만 하는게 맞다고 본다....
+// 그림이 별로였다고 한 이유: 보통 모달을 isModalOpen으로 설계하는거에는 문제가없다? 일반적으로 자연스럽다
+// 문제 의의제기....!!
+// {isModalOpen && selectedRestaurant && ( <RestaurantDetailModal 이게 완벽하다.
 ```    
 
 ## ✅ 키워드
