@@ -1,4 +1,4 @@
-interface Restaurant {
+export interface Restaurant {
   id: string;
   name: string;
   description: string;
@@ -8,9 +8,11 @@ interface Restaurant {
 export default function RestaurantList({
   restaurants,
   onChangeCategory,
+  onClickRestaurant,
 }: {
   restaurants: Restaurant[];
   onChangeCategory: (category: string) => void;
+  onClickRestaurant: (restaurant: Restaurant) => void;
 }) {
   return (
     <main>
@@ -35,7 +37,7 @@ export default function RestaurantList({
       <section className="restaurant-list-container">
         <ul className="restaurant-list">
           {restaurants.map((restaurant) => (
-            <li key={restaurant.id} className="restaurant">
+            <li onClick={() => onClickRestaurant(restaurant)} key={restaurant.id} className="restaurant">
               <div className="restaurant__info">
                 <h3 className="restaurant__name text-subtitle">{restaurant.name}</h3>
                 <p className="restaurant__description text-body">{restaurant.description}</p>

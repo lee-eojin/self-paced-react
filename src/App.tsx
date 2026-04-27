@@ -5,6 +5,7 @@ import RestaurantList from "./RestaurantList.tsx";
 import RestaurantDetailModal from "./RestaurantDetailModal.tsx";
 import AddRestaurantModal from "./AddRestaurantModal.tsx";
 import { useState } from "react";
+import { Restaurant } from "./RestaurantList.tsx";
 
 const restaurants = [
   {
@@ -48,18 +49,34 @@ const restaurants = [
 ];
 
 function App() {
-  const [category, setCategory] = useState("전체")
-  const filteredRestaurants = category === "전체"
-    ? restaurants
-    : restaurants.filter((restaurant) => restaurant.category === category)
+  const [category, setCategory] = useState("전체");
+  const filteredRestaurants =
+    category === "전체" ? restaurants : restaurants.filter((restaurant) => restaurant.category === category);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedRestaurant, setSelectedRestaurant] = useState<Restaurant | null>(null);
   return (
     <>
       <Header />
-      <RestaurantList 
-        restaurants={filteredRestaurants} 
+      <RestaurantList
+        restaurants={filteredRestaurants}
         onChangeCategory={setCategory}
+        onClickRestaurant={(restaurant) => {
+          setSelectedRestaurant(restaurant);
+          setIsModalOpen(true);
+        }}
       />
-      <RestaurantDetailModal />
+      {/* {selectedRestaurant && (
+          <RestaurantDetailModal
+            onClose={() => setSelectedRestaurant(null)}
+            restaurant={selectedRestaurant}
+          />  
+      )} */}
+      {isModalOpen && selectedRestaurant && (
+        <RestaurantDetailModal
+          onClose={() => setIsModalOpen(false)}
+          restaurant={selectedRestaurant} // 이게 베스트다!!!!! (파라디: data state - UI state를 구분해서 생각해보면 좋을것 같다. 그래서 이중잠금을 해서) 커스텀훅이라는게 머죠...? -> 도넛: 함수 하나 만드는 건데 use라는 prefix붙은 함수에요
+        /> // use가 붙어있으면 그 내부에서 useState와 같은 훅을 사용할 수 있어요. 사용자 지정 빌드함수를 만든다. 단언은 안되는 이유는 -> 이미 null이 있어 근데 여기서... 런타임에서 문제가 생길지도? (도넛)
+      )}
       <AddRestaurantModal />
     </>
   );
